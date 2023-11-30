@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="">
-    <img src="./assets/teaser.png" alt="Teaser" width="95%">
+    <img src="assets/relit.gif" alt="Relit" width="95%">
   </a>
 </p>
 <p align="center">
