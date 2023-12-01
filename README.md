@@ -11,7 +11,7 @@
     <a href="https://yuexinma.me/aboutme.html">Yuexin Ma</a>
 
   </p>
-  <h3 align="center"><a href="None">Paper</a> | <a href="https://asparagus15.github.io/GaussianShader.github.io/">Project Page</a></h3>
+  <h3 align="center"><a href="https://arxiv.org/abs/2311.17977">Paper</a> | <a href="https://asparagus15.github.io/GaussianShader.github.io/">Project Page</a></h3>
   <div align="center"></div>
 </p>
 
@@ -21,9 +21,7 @@
   </a>
 </p>
 <p align="center">
-  GaussianShader maintains real-time rendering speed and renders high-fidelity images for both general and reflective surfaces. 
-  Ref-NeRF and ENVIDR attempt to handle reflective surfaces, but they suffer from quite time-consuming optimization and slow rendering speed.
-  3D Gaussian splatting keeps high efficiency but cannot handle such reflective surfaces.
+  GaussianShader maintains real-time rendering speed and renders high-fidelity images for both general and reflective surfaces. GaussianShader enables free-viewpoint rendering objects under distinct lighting environments.
 </p>
 <br>
 
