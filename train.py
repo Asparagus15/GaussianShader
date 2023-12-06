@@ -193,7 +193,7 @@ def training_report(tb_writer, iteration, Ll1, loss, losses_extra, l1_loss, elap
                         if iteration == testing_iterations[0]:
                             tb_writer.add_images(config['name'] + "_view_{}/ground_truth".format(viewpoint.image_name), gt_image[None], global_step=iteration)
                         for k in render_pkg.keys():
-                            if render_pkg[k].dim()<3 or k=="render":
+                            if render_pkg[k].dim()<3 or k=="render" or k=="delta_normal":
                                 continue
                             if k == "depth":
                                 image_k = apply_depth_colormap(-render_pkg[k][0][...,None])

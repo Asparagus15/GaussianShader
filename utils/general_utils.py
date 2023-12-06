@@ -139,7 +139,7 @@ def safe_state(silent):
 def get_minimum_axis(scales, rotations):
     sorted_idx = torch.argsort(scales, descending=False, dim=-1)
     R = build_rotation(rotations)
-    R_sorted = torch.gather(R, dim=1, index=sorted_idx[:,:,None].repeat(1, 1, 3)).squeeze()
+    R_sorted = torch.gather(R, dim=2, index=sorted_idx[:,None,:].repeat(1, 3, 1)).squeeze()
     x_axis = R_sorted[:,0,:] # normalized by defaut
 
     return x_axis

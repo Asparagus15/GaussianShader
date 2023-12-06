@@ -252,77 +252,11 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
             
     return cam_infos
 
-def get_light_poses(cam_infos): # TODO: tune this for tt_ft
-    cam_info0 = cam_infos[0]
-    radius_cam = 4  # 2
-    light_env_h = 16
-    light_env_w = 64
-    light_radius = 2 # tanks
-    # light_radius = 1 # glossy
-
-    radius = light_radius
-    lxyz, area = gen_light_xyz(
-        light_env_h, light_env_w, radius)
-    phis = -np.arcsin(lxyz[..., 2]/radius)*180/np.pi
-    thetas = np.arctan2(lxyz[...,0], lxyz[...,1])*180/np.pi # (16,32)
-    light_shape = phis.shape
-    tmp = [
-        pose_spherical(thetas[i,j], phis[i,j], radius)
-            for i in range(light_shape[0]) for j in range(light_shape[1])]
-    light_poses = np.stack(tmp, 0)
-    # light_poses = light_poses[int(len(light_poses)*7/8):,...] # last 1/8 tanks
-    # light_poses = light_poses[int(len(light_poses)*1/2):int(len(light_poses)*3/4),...] # 1/2 ~ 3/4 glossy
-    
-    cam_FovX, cam_FovY = cam_info0.FovX, cam_info0.FovY
-    cam_focal_x = fov2focal(cam_FovX, cam_info0.image.size[0])
-    cam_focal_y = fov2focal(cam_FovY, cam_info0.image.size[1])
-    focal_x = radius / radius_cam * cam_focal_x
-    focal_y = radius / radius_cam * cam_focal_y
-    cam_FovX = focal2fov(focal_x, cam_info0.image.size[0])
-    cam_FovY = focal2fov(focal_y, cam_info0.image.size[1])
-    center = find_scene_center(cam_infos)
-    
-    new_cam_infos = []
-    for i,pose in enumerate(light_poses):
-
-        c2w = np.array(pose)
-        # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
-        c2w[:3, 1:3] *= -1
-
-        # get the world-to-camera transform and set R, T
-        w2c = np.linalg.inv(c2w)
-        swapaxis = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]) # tanks
-        w2c = w2c @ swapaxis # tanks
-        R = np.transpose(w2c[:3,:3])  # R is stored transposed due to 'glm' in CUDA code
-        T = w2c[:3, 3] + center
-
-        new_cam_info = CameraInfo(
-            uid=f'interpolated_{i:05d}',
-            R=R,
-            T=T,
-            FovY=cam_info0.FovY,
-            FovX=cam_info0.FovX,
-            image=cam_info0.image,
-            image_path=cam_info0.image_path,
-            image_name=f'interpolated_{i:05d}',
-            width=cam_info0.width,
-            height=cam_info0.height,
-            normal_image=cam_info0.normal_image,
-            alpha_mask=cam_info0.alpha_mask
-        )
-        new_cam_infos.append(new_cam_info)
-    return new_cam_infos
-
-def readNerfSyntheticInfo(path, white_background, eval, extension=".png", demo=False):
-    if demo:
-        test_cam_infos = readCamerasFromTransforms(path, "transforms_test.json", white_background, extension)
-        train_cam_infos = test_cam_infos
-        test_cam_infos = get_light_poses(test_cam_infos)
-    else:
-        print("Reading Training Transforms")
-        train_cam_infos = readCamerasFromTransforms(path, "transforms_train.json", white_background, extension)
-        print("Reading Test Transforms")
-        test_cam_infos = readCamerasFromTransforms(path, "transforms_test.json", white_background, extension)
+def readNerfSyntheticInfo(path, white_background, eval, extension=".png"):
+    print("Reading Training Transforms")
+    train_cam_infos = readCamerasFromTransforms(path, "transforms_train.json", white_background, extension)
+    print("Reading Test Transforms")
+    test_cam_infos = readCamerasFromTransforms(path, "transforms_test.json", white_background, extension)
     
     if not eval:
         train_cam_infos.extend(test_cam_infos)

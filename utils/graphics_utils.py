@@ -123,11 +123,8 @@ def normal_from_depth_image(depth, intrinsic_matrix, extrinsic_matrix):
     # depth: (H, W), intrinsic_matrix: (3, 3), extrinsic_matrix: (4, 4)
     # xyz_normal: (H, W, 3)
     xyz_world = depth2point_world(depth, intrinsic_matrix, extrinsic_matrix) # (HxW, 3)
-    swapaxis = torch.tensor([[0, 1, 0], [1, 0, 0], [0, 0, 1]], dtype=xyz_world.dtype, device=xyz_world.device) # tanks
-    xyz_world = xyz_world @ swapaxis # tanks
     xyz_world = xyz_world.reshape(*depth.shape, 3)
     xyz_normal = depth_pcd2normal(xyz_world)
-    xyz_normal = xyz_normal[...,[1,0,2]] # tanks
 
     return xyz_normal
 
