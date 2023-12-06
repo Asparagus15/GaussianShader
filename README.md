@@ -61,7 +61,7 @@ Download the [example data](https://drive.google.com/file/d/1bSv0soQtjbRj9S9Aq9u
 python train.py -s data/horse_blender --eval -m output/horse_blender -w --brdf_dim 0 --sh_degree -1 --lambda_predicted_normal 2e-1 --brdf_env 512 
 ```
 
-## Evaluation
+## Rendering
 ```shell
 python render.py -m output/horse_blender --brdf_dim 0 --sh_degree -1 --brdf_mode envmap --brdf_env 512
 ```
