@@ -113,7 +113,7 @@ def delta_normal_loss(delta_normal, alpha=None):
         weight = torch.ones_like(normal_ref)
 
     w = weight.permute(1,2,0).reshape(-1,3)[...,0].detach()
-    l = weight.permute(1,2,0).reshape(-1,3)[...,0]
+    l = delta_normal.permute(1,2,0).reshape(-1,3)[...,0]
     loss = (w * l).mean()
 
     return loss

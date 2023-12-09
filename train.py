@@ -187,9 +187,7 @@ def training_report(tb_writer, iteration, Ll1, loss, losses_extra, l1_loss, elap
                     images = torch.cat((images, image.unsqueeze(0)), dim=0)
                     gts = torch.cat((gts, gt_image.unsqueeze(0)), dim=0)
                     if tb_writer and (idx < 5):
-                        tb_writer.add_images(config['name'] + "_view_{}/GT".format(viewpoint.image_name), gt_image[None], global_step=iteration)
                         tb_writer.add_images(config['name'] + "_view_{}/render".format(viewpoint.image_name), image[None], global_step=iteration)
-                        # if gt_normal_image is not None: render_pkg['GT_normal'] = gt_normal_image
                         if iteration == testing_iterations[0]:
                             tb_writer.add_images(config['name'] + "_view_{}/ground_truth".format(viewpoint.image_name), gt_image[None], global_step=iteration)
                         for k in render_pkg.keys():
@@ -211,7 +209,6 @@ def training_report(tb_writer, iteration, Ll1, loss, losses_extra, l1_loss, elap
                             lighting = render_lighting(scene.gaussians, resolution=(512, 1024))
                             if tb_writer:
                                 tb_writer.add_images(config['name'] + "/lighting", lighting[None], global_step=iteration)
-                                lighting_min, lighting_max = lighting.min(), lighting.max()
                 l1_test = l1_loss(images, gts)
                 psnr_test = psnr(images, gts).mean()  
                 print("\n[ITER {}] Evaluating {}: L1 {} PSNR {}".format(iteration, config['name'], l1_test, psnr_test))

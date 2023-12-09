@@ -58,7 +58,7 @@ conda activate gaussian_shader
 ## Running
 Download the [example data](https://drive.google.com/file/d/1bSv0soQtjbRj9S9Aq9uQ27EW4wwY--6q/view?usp=sharing) and put it to the ``data`` folder. Execute the optimizer using the following command:
 ```shell
-python train.py -s data/horse_blender --eval -m output/horse_blender -w --brdf_dim 0 --sh_degree -1 --lambda_predicted_normal 2e-1 --brdf_env 512 
+python train.py -s data/horse_blender --eval -m output/horse_blender -w --brdf_dim 0 --sh_degree -1 --lambda_predicted_normal 2e-1 --brdf_mlp_lr_final 1.6e-3 --brdf_env 512 
 ```
 
 ## Rendering
