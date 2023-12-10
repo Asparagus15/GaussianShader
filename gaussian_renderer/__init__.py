@@ -125,14 +125,14 @@ def render(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tensor, 
     if colors_precomp is None:
         if pipe.brdf:
             color_delta = None
-            delta_normal = None
+            delta_normal_norm = None
             if pipe.brdf_mode=="envmap":
                 gb_pos = pc.get_xyz # (N, 3) 
                 view_pos = viewpoint_camera.camera_center.repeat(pc.get_opacity.shape[0], 1) # (N, 3) 
 
                 diffuse   = pc.get_diffuse # (N, 3) 
                 normal, delta_normal = pc.get_normal(dir_pp_normalized=dir_pp_normalized, return_delta=True) # (N, 3) 
-                delta_normal = delta_normal.norm(dim=1, keepdim=True)
+                delta_normal_norm = delta_normal.norm(dim=1, keepdim=True)
                 specular  = pc.get_specular # (N, 3) 
                 roughness = pc.get_roughness # (N, 1) 
                 color, brdf_pkg = pc.brdf_mlp.shade(gb_pos[None, None, ...], normal[None, None, ...], diffuse[None, None, ...], specular[None, None, ...], roughness[None, None, ...], view_pos[None, None, ...])
@@ -189,8 +189,8 @@ def render(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tensor, 
         if pipe.brdf:
             normal_normed = 0.5*normal + 0.5  # range (-1, 1) -> (0, 1)
             render_extras.update({"normal": normal_normed})
-            if delta_normal is not None:
-                render_extras.update({"delta_normal": delta_normal.repeat(1, 3)})
+            if delta_normal_norm is not None:
+                render_extras.update({"delta_normal_norm": delta_normal_norm.repeat(1, 3)})
             if debug:
                 render_extras.update({
                     "diffuse": diffuse, 

@@ -100,7 +100,7 @@ class OptimizationParams(ParamGroup):
         self.densify_until_iter = 15_000
         self.densify_grad_threshold = 0.0002
         self.brdf_mlp_lr_init = 1.6e-2
-        self.brdf_mlp_lr_final = 1.6e-5
+        self.brdf_mlp_lr_final = 1.6e-3 
         self.brdf_mlp_lr_delay_mult = 0.01
         self.brdf_mlp_lr_max_steps = 30_000
         self.normal_lr = 0.0002

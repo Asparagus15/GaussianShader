@@ -87,9 +87,9 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations):
             if iteration<opt.normal_reg_util_iter:
                 losses_extra['predicted_normal'] = predicted_normal_loss(render_pkg["normal"], render_pkg["normal_ref"], render_pkg["alpha"])
             losses_extra['zero_one'] = zero_one_loss(render_pkg["alpha"])
-            if "delta_normal" not in render_pkg.keys() and opt.lambda_delta_reg>0: assert()
-            if "delta_normal" in render_pkg.keys():
-                losses_extra['delta_reg'] = delta_normal_loss(render_pkg["delta_normal"], render_pkg["alpha"])
+            if "delta_normal_norm" not in render_pkg.keys() and opt.lambda_delta_reg>0: assert()
+            if "delta_normal_norm" in render_pkg.keys():
+                losses_extra['delta_reg'] = delta_normal_loss(render_pkg["delta_normal_norm"], render_pkg["alpha"])
 
         # Loss
         gt_image = viewpoint_cam.original_image.cuda()
@@ -191,7 +191,7 @@ def training_report(tb_writer, iteration, Ll1, loss, losses_extra, l1_loss, elap
                         if iteration == testing_iterations[0]:
                             tb_writer.add_images(config['name'] + "_view_{}/ground_truth".format(viewpoint.image_name), gt_image[None], global_step=iteration)
                         for k in render_pkg.keys():
-                            if render_pkg[k].dim()<3 or k=="render" or k=="delta_normal":
+                            if render_pkg[k].dim()<3 or k=="render" or k=="delta_normal_norm":
                                 continue
                             if k == "depth":
                                 image_k = apply_depth_colormap(-render_pkg[k][0][...,None])

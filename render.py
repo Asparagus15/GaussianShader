@@ -53,7 +53,7 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
         torchvision.utils.save_image(render_pkg["render"], os.path.join(render_path, '{0:05d}'.format(idx) + ".png"))
         torchvision.utils.save_image(gt, os.path.join(gts_path, '{0:05d}'.format(idx) + ".png"))
         for k in render_pkg.keys():
-            if render_pkg[k].dim()<3 or k=="render" or k=="delta_normal":
+            if render_pkg[k].dim()<3 or k=="render" or k=="delta_normal_norm":
                 continue
             save_path = os.path.join(model_path, name, "ours_{}".format(iteration), k)
             makedirs(save_path, exist_ok=True)
