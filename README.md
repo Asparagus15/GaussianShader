@@ -6,9 +6,13 @@
     <a href="https://github.com/donjiaking">Jiadong Tu</a>,
     <a href="https://liuyuan-pal.github.io/">Yuan Liu</a>,
     <a href="https://gaoxifeng.github.io/">Xifeng Gao</a>,
-    <a href="https://www.xxlong.site/">Xiaoxiao Long</a>,
+    <a href="https://www.xxlong.site/">Xiaoxiao Long*</a>,
     <a href="https://www.cs.hku.hk/people/academic-staff/wenping">Wenping Wang</a>,
-    <a href="https://yuexinma.me/aboutme.html">Yuexin Ma</a>
+    <a href="https://yuexinma.me/aboutme.html">Yuexin Ma*</a>
+
+  </p>
+    <p align="center">
+    *Corresponding authors
 
   </p>
   <h3 align="center"><a href="https://arxiv.org/abs/2311.17977">Paper</a> | <a href="https://asparagus15.github.io/GaussianShader.github.io/">Project Page</a></h3>
